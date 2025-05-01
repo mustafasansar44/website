@@ -8,7 +8,7 @@
         /* Genel Sayfa Ayarları */
         body {
             background-color: #000000; /* Tam Siyah Arka Plan */
-            color: #A0A0A0;           /* Ana Metin Rengi (Gri) */
+            color: #A0A0A0;          /* Ana Metin Rengi (Gri) */
             font-family: 'Lucida Console', 'Courier New', monospace; /* BIOS'a daha yakın fontlar */
             font-size: 15px;          /* Biraz daha küçük font */
             margin: 0;
@@ -33,7 +33,7 @@
         /* Üst Başlık Çubuğu */
         .bios-header {
             background-color: #888888; /* Gri Arka Plan */
-            color: #01016A;           /* Koyu Mavi Yazı */
+            color: #01016A;          /* Koyu Mavi Yazı */
             padding: 3px 10px;
             text-align: center;
             font-weight: bold;
@@ -103,9 +103,18 @@
             text-align: left;
         }
 
+        /* GİRİŞ AÇIKLAMASI - GÜNCELLENDİ */
+        .main-content > span.description {
+            color: #A0A0A0;
+            display: inline-block; /* Margin için */
+            margin-bottom: 15px; /* Profil linkleri ile araya boşluk eklendi */
+            line-height: 1.4; /* Okunabilirlik için satır aralığı */
+        }
+
+
         /* Profil Linkleri */
         .profile-links {
-            margin-bottom: 25px;
+            margin-bottom: 25px; /* Projeler başlığı ile arasındaki boşluk */
         }
 
         .profile-links a {
@@ -141,6 +150,8 @@
             cursor: default;
             padding: 2px 5px; /* Vurgu için biraz dolgu */
             transition: background-color 0.1s ease, color 0.1s ease; /* Yumuşak geçiş */
+            line-height: 1.4; /* Daha iyi okunabilirlik */
+            position: relative;
         }
 
         /* Proje Linki (varsa) */
@@ -156,24 +167,38 @@
             font-weight: bold;
         }
 
-        /* Proje Açıklaması */
-        #project-list li span.description { /* ID ile seçici */
-            color: #A0A0A0; /* Açıklama Gri */
+        /* Proje Tarihi - YENİ EKLENDİ */
+        #project-list li span.project-date {
+            color: #A0A0A0;
+            font-style: italic;
             margin-left: 10px;
+            margin-right: 5px;
+            position: absolute;
+            width: 250px;
+            right: 0px;
+            top: 0px;
         }
 
-        /* Fare ile üzerine gelme efektleri (isteğe bağlı, kb-selected ezecek) */
+        /* Proje Açıklaması - GÜNCELLENDİ */
+        #project-list li span.description {
+            color: #A0A0A0; /* Açıklama Gri */
+            margin-left: 0; /* Tarihten sonra geldiği için */
+        }
+
+        /* Fare ile üzerine gelme efektleri */
         .profile-links a:hover {
              background-color: #AA0000; /* Hover: Kırmızı tonu Arka Plan */
              color: #FFFFFF;
         }
         #project-list li:hover {
              background-color: #2a2a8a; /* Hover için hafif farklı mavi */
-             color: #FFFFFF;
+             color: #FFFFFF; /* Metin rengi değişmese de belirtelim */
         }
-        span.description {
-              color: #CCCCCC; /* Hover: Açıklama açık gri */
-         }
+         #project-list li:hover span.description,
+         #project-list li:hover span.project-date { /* Hover'da tarih de açılsın */
+              color: #CCCCCC !important; /* Hover: Açıklama ve Tarih açık gri (important gerekebilir kb-selected'ı ezmek için ama şimdilik değil) */
+              color: #CCCCCC;
+        }
          #project-list li:hover a.project-link {
              color: #FFFF00; /* Hover: Sarı Link */
              background-color: transparent;
@@ -201,24 +226,27 @@
             outline: 1px dotted #FFFFFF;
         }
 
-        /* Proje Listesi Seçimi */
-        #project-list li.kb-selected { /* ID ile seçici */
+        /* Proje Listesi Seçimi - GÜNCELLENDİ */
+        #project-list li.kb-selected {
             background-color: #888888 !important; /* Gri Arka Plan (Hover'ı ezer) */
-            color: #01016A !important;           /* Mavi Yazı (Hover'ı ezer) */
+            color: #01016A !important;           /* Ana metin rengi Mavi (Hover'ı ezer) */
             outline: 1px dotted #FFFFFF; /* Seçimi daha belirgin yapmak için ince çerçeve */
         }
-        #project-list li.kb-selected span.description { /* ID ile seçici */
-             color: #01016A !important; /* Seçili: Açıklama mavi */
+        #project-list li.kb-selected span.project-name, /* Proje adı da mavi olsun */
+        #project-list li.kb-selected span.description,
+        #project-list li.kb-selected span.project-date { /* Seçili: Açıklama ve Tarih mavi */
+             color: #01016A !important;
         }
-         #project-list li.kb-selected a.project-link { /* ID ile seçici */
+         #project-list li.kb-selected a.project-link { /* Seçili: Proje linki farklı renk kalsın */
              color: #FFFF00 !important; /* Seçili: Sarı Link */
              background-color: transparent !important; /* Vurgu rengi li'den gelsin */
          }
 
+
         /* Alt Kısım (Footer - Komutlar) */
         .bios-footer {
             background-color: #888888; /* Gri Arka Plan */
-            color: #01016A;           /* Mavi Yazı */
+            color: #01016A;          /* Mavi Yazı */
             padding: 5px 10px;
             font-size: 0.9em;
             flex-shrink: 0;
@@ -241,7 +269,7 @@
         .cursor {
             display: inline-block;
             width: 8px;
-            height: 1.1em;
+            height: 1.1em; /* font-size ile uyumlu */
             background-color: #FFFFFF;
             vertical-align: text-bottom;
             margin-left: 2px; /* İmleç ile metin arası boşluk */
@@ -273,13 +301,12 @@
             <main class="main-content">
                 <h1>Mustafa SANSAR</h1>
                 <span class="description">
-                    Merhaba, ben Mustafa. Gazi Üniversitesi Bilgisayar Mühendisliği mezunuyum. 
-                    Özellikle Java & Spring boot olmak üzere çeşitli projeler geliştirdim ve geliştirmeye 
-                    devam ediyorum. Full Stack alanında (Java Spring boot, Angular) yaklaşık 1 senelik iş 
-                    tecrübem mevcut. 
-
+                    Merhaba, ben Mustafa. Gazi Üniversitesi Bilgisayar Mühendisliği mezunuyum.
+                    Özellikle Java & Spring boot olmak üzere çeşitli projeler geliştirdim ve geliştirmeye
+                    devam ediyorum. Full Stack alanında (Java Spring boot, Angular) yaklaşık 1 senelik iş
+                    tecrübem mevcut.
                 </span>
-                
+
                 <div class="profile-links" id="profile-links-list">
                     <a href="https://github.com/mustafasansar44" target="_blank">GitHub Profil</a>
                     <a href="https://medium.com/@mustafasansar44" target="_blank">Medium Yazıları</a>
@@ -288,34 +315,38 @@
 
                 <h2>Projelerim (Güncelden Eskiye)</h2>
                 <ul id="project-list">
-                        <!-- TODO: Her bir <li> için projeye başlama tarihleri eklenmeli -->
-
-                    <li>
+                     <li>
                         <a href="PROJE_LINKI_1" target="_blank" class="project-link">Oyun Projesi (Unity)</a>
+                        <span class="project-date">[Başlangıç: Mayıs 2025]</span>
                         <span class="description">Geliştirme aşamasında.</span>
                     </li>
                     <li>
                         <span class="project-name">Plate Search (React Native & Supabase)</span>
+                         <span class="project-date">[Başlangıç: Ocak 2025]</span>
                         <span class="description">Plaka arama uygulaması. Kullanıcılar, araç plakalarını aratabilir ya da yorum girebilirler.</span>
                     </li>
                      <li>
                         <a href="PROJE_LINKI_3" target="_blank" class="project-link">Word Memorization Mikroservice</a>
+                        <span class="project-date">[Başlangıç: Kasım 2024]</span>
                         <span class="description">Mevcut Word Memorization Monolitik projemi mikroservis'e çevirme projem.</span>
                     </li>
                      <li>
                         <span class="project-name">Word Memorization</span>
+                         <span class="project-date">[Başlangıç: Şubat 2023]</span>
                         <span class="description">Üniversitedeyken ingilizce kelime ezberi yapmamı kolaşlaştırması için yazdığım backend proje.</span>
                     </li>
                      <li>
                         <a href="PROJE_LINKI_4" target="_blank" class="project-link">Laborant Frontend & Backend</a>
+                        <span class="project-date">[Başlangıç: Eylül 2022]</span>
                         <span class="description">Hastane laboratuvatı için geliştirdiğim proje.</span>
                     </li>
                      <li>
                         <a href="PROJE_LINKI_5" target="_blank" class="project-link">Metin2 Farmbot</a>
+                        <span class="project-date">[Başlangıç: Mart 2022]</span>
                         <span class="description">Metin2'de görüntü işleme ile metin taşlarının konumunu saptayıp otomatik olarak saldıran bot.</span>
                     </li>
-                     </ul>
-                 <span class="cursor">_</span> </main>
+                    </ul>
+                <span class="cursor">_</span> </main>
 
             <aside class="help-sidebar">
                  <strong>Yardım</strong>
@@ -380,9 +411,9 @@
                     if (tabs.includes(currentElement)) {
                         // Eğer bu sekme başlangıçta seçili olan (Portfolio) ise ana stili, değilse klavye stilini kullan
                          if (currentElement === initialSelectedTab) { // === ile karşılaştır
-                              currentElement.classList.add(tabSelectedClass);
+                             currentElement.classList.add(tabSelectedClass);
                          } else {
-                              currentElement.classList.add(tabKbSelectedClass);
+                             currentElement.classList.add(tabKbSelectedClass);
                          }
                     } else { // Profil linki veya Proje li
                         currentElement.classList.add(linkProjectKbSelectedClass);
@@ -406,55 +437,90 @@
 
                 const currentElement = navigableElements[selectedIndex];
                 const isTab = tabs.includes(currentElement);
-                const isProfileLink = profileLinks.includes(currentElement);
-                const isProjectItem = projectItems.includes(currentElement);
+                //const isProfileLink = profileLinks.includes(currentElement); // Aşağıda ArrowUp/Down içinde tanımlı
+                //const isProjectItem = projectItems.includes(currentElement); // Aşağıda ArrowUp/Down içinde tanımlı
 
                 let targetIndex = selectedIndex; // Hedeflenen yeni index
 
                 switch (event.key) {
-                    case 'ArrowDown':
-                        event.preventDefault();
-                        // Eğer bir sekmedeysek, ilk profil linkine atla
-                        if (isTab) {
-                            targetIndex = navigableElements.indexOf(profileLinks[0] || projectItems[0] || currentElement); // Profil yoksa projeye, o da yoksa yerinde kal
-                        }
-                        // Eğer bir profil linkindeysek, ilk proje öğesine atla
-                        else if (isProfileLink) {
-                            targetIndex = navigableElements.indexOf(projectItems[0] || currentElement); // Proje yoksa yerinde kal
-                        }
-                        // Eğer bir proje öğesindeysek, bir sonrakine git (sınır kontrolü selectElement içinde)
-                        else if (isProjectItem) {
-                            targetIndex++;
-                        }
+                     case 'ArrowDown': { // Scope için {} kullanmak iyi pratik
+                         event.preventDefault();
+                         const isProfileLink = profileLinks.includes(currentElement);
+                         const isProjectItem = projectItems.includes(currentElement);
+
+                         if (isTab) {
+                              // Sekmeden sonra ilk profil linki varsa ona git, yoksa ilk projeye
+                             targetIndex = navigableElements.indexOf(profileLinks[0] || projectItems[0] || currentElement);
+                         } else if (isProfileLink) {
+                             // Profil linkinden sonra ilk proje varsa ona git
+                              const currentLinkIndex = profileLinks.indexOf(currentElement);
+                              // Eğer son profil linkindeysek ve projeler varsa ilk projeye geç
+                              if (currentLinkIndex === profileLinks.length - 1 && projectItems.length > 0) {
+                                  targetIndex = navigableElements.indexOf(projectItems[0]);
+                              } else if (currentLinkIndex < profileLinks.length -1) {
+                                  // Son linkte değilsek sonraki profile linkine geçme (bu sağ ok ile yapılır)
+                                  // Aşağı ok her zaman bir sonraki 'gruba' veya grup içinde aşağı inmeli.
+                                  // Profil link grubunun sonundaysak ilk projeye geçmeli.
+                                  // Aksi takdirde profil linklerinde aşağı ok bir şey yapmamalı gibi.
+                                  // VEYA: Profil linklerindeyken aşağı ok her zaman ilk projeye gitsin? Bu daha tutarlı olabilir.
+                                   if(projectItems.length > 0) {
+                                      targetIndex = navigableElements.indexOf(projectItems[0]);
+                                  } else {
+                                      // Proje yoksa yerinde kal
+                                       targetIndex = selectedIndex; // veya son profil linkinde kal
+                                  }
+
+                              } else if (projectItems.length > 0) {
+                                   // Son profil linkindeysek ve projeler varsa ilk projeye git
+                                  targetIndex = navigableElements.indexOf(projectItems[0]);
+                              }
+                         } else if (isProjectItem) {
+                             // Proje listesinde aşağı in
+                             const currentItemIndex = projectItems.indexOf(currentElement);
+                             if (currentItemIndex < projectItems.length - 1) {
+                                 targetIndex = navigableElements.indexOf(projectItems[currentItemIndex + 1]);
+                             } // else: son projede kal
+                         }
                          selectElement(targetIndex);
-                        break;
+                         break;
+                     }
 
-                    case 'ArrowUp':
-                        event.preventDefault();
-                         // Eğer bir proje öğesindeysek, son profil linkine atla
+                     case 'ArrowUp': {
+                         event.preventDefault();
+                           const isProfileLink = profileLinks.includes(currentElement);
+                           const isProjectItem = projectItems.includes(currentElement);
+
                          if (isProjectItem) {
-                             targetIndex = navigableElements.indexOf(profileLinks[profileLinks.length - 1] || tabs[tabs.length -1] || currentElement); // Profil yoksa sekmeye, o da yoksa yerinde kal
+                              // Proje listesinde yukarı çık
+                             const currentItemIndex = projectItems.indexOf(currentElement);
+                             if (currentItemIndex > 0) {
+                                 targetIndex = navigableElements.indexOf(projectItems[currentItemIndex - 1]);
+                             } else {
+                                 // İlk projedeysek, son profil linkine git (varsa)
+                                 targetIndex = navigableElements.indexOf(profileLinks[profileLinks.length - 1] || tabs[tabs.length -1] || currentElement);
+                             }
+                         } else if (isProfileLink) {
+                              // Profil listesinde yukarı çık
+                              const currentLinkIndex = profileLinks.indexOf(currentElement);
+                              if (currentLinkIndex > 0) {
+                                  // İlk profil linkinde değilsek yukarı ok bir şey yapmamalı (sol ok kullanılır)
+                                   // VEYA: Her zaman son sekmeye mi gitmeli? Daha tutarlı.
+                                  targetIndex = navigableElements.indexOf(tabs[tabs.length - 1] || currentElement);
+                              } else {
+                                   // İlk profil linkindeysek, son sekmeye git
+                                  targetIndex = navigableElements.indexOf(tabs[tabs.length - 1] || currentElement);
+                              }
+                         } else if (isTab) {
+                             // Sekmelerde yukarı ok bir şey yapmasın veya son projeye gitsin?
+                             // En mantıklısı: son projeye git (varsa), yoksa son profile, o da yoksa kalsın
+                             // targetIndex = navigableElements.indexOf(projectItems[projectItems.length - 1] || profileLinks[profileLinks.length - 1] || currentElement);
+                             // Veya hiçbir şey yapmasın? Şimdilik yapmasın.
+                             targetIndex = selectedIndex;
                          }
-                         // Eğer bir profil linkindeysek, son sekmeye atla
-                         else if (isProfileLink) {
-                              targetIndex = navigableElements.indexOf(tabs[tabs.length - 1] || currentElement); // Sekme yoksa yerinde kal
-                         }
-                         // Eğer bir sekmedeysek, bir öncekine git (sınır kontrolü selectElement içinde)
-                         else if (isTab) {
-                              targetIndex--; // Sola gitmekle aynı mantıkta değil, yukarı gidince önceki gruba dönmeli.
-                              // Yukarı basınca sekmelerde bir şey yapmasın mı? Veya son projeye mi dönsün?
-                              // Şimdilik sekmelerde yukarı basınca bir şey yapmasın.
-                              // Eğer yukarı basınca son projeye gitmesini isterseniz:
-                              // targetIndex = navigableElements.indexOf(projectItems[projectItems.length - 1] || profileLinks[profileLinks.length -1] || currentElement);
-                              // Ama bu kafa karıştırıcı olabilir. En iyisi yukarı basınca sekmelerde kalmak veya hiçbir şey yapmamak.
-                              // Şimdilik yerinde kalması için hedefi değiştirmiyoruz.
-                              // Veya ilk sekmeye git? selectElement(0);
-                              // En mantıklısı: Sekmedeyken yukarı basınca son profil linkine gitsin.
-                              targetIndex = navigableElements.indexOf(profileLinks[profileLinks.length -1] || projectItems[projectItems.length -1] || currentElement);
+                         selectElement(targetIndex);
+                         break;
+                     }
 
-                         }
-                        selectElement(targetIndex);
-                        break;
 
                     case 'ArrowRight':
                         if (isTab) { // Sadece sekmelerde sağa git
@@ -462,19 +528,19 @@
                             const currentTabIndex = tabs.indexOf(currentElement);
                             const nextTabIndex = (currentTabIndex + 1); // Sona gelince dur
                              if(nextTabIndex < tabs.length){
-                                targetIndex = navigableElements.indexOf(tabs[nextTabIndex]);
-                             } // else: sonda kal
-                            selectElement(targetIndex);
-                        }
-                        // Profil linklerinde sağa basınca bir sonraki linke gidebilir
-                        else if (isProfileLink) {
-                             event.preventDefault();
-                             const currentLinkIndex = profileLinks.indexOf(currentElement);
-                             const nextLinkIndex = currentLinkIndex + 1;
-                             if(nextLinkIndex < profileLinks.length){
-                                 targetIndex = navigableElements.indexOf(profileLinks[nextLinkIndex]);
+                                 targetIndex = navigableElements.indexOf(tabs[nextTabIndex]);
                                  selectElement(targetIndex);
                              }
+                        }
+                        // Profil linklerinde sağ ok sonraki linke gitsin
+                         else if (profileLinks.includes(currentElement)) {
+                            event.preventDefault();
+                            const currentLinkIndex = profileLinks.indexOf(currentElement);
+                            const nextLinkIndex = currentLinkIndex + 1;
+                             if(nextLinkIndex < profileLinks.length){
+                                  targetIndex = navigableElements.indexOf(profileLinks[nextLinkIndex]);
+                                  selectElement(targetIndex);
+                              }
                         }
                         break;
 
@@ -483,77 +549,88 @@
                             event.preventDefault();
                             const currentTabIndex = tabs.indexOf(currentElement);
                             const prevTabIndex = (currentTabIndex - 1); // Başa gelince dur
-                             if(prevTabIndex >= 0){
-                                targetIndex = navigableElements.indexOf(tabs[prevTabIndex]);
-                             } // else: başta kal
-                            selectElement(targetIndex);
-                         }
-                          // Profil linklerinde sola basınca bir önceki linke gidebilir
-                        else if (isProfileLink) {
-                             event.preventDefault();
-                             const currentLinkIndex = profileLinks.indexOf(currentElement);
-                             const prevLinkIndex = currentLinkIndex - 1;
-                             if(prevLinkIndex >= 0){
-                                 targetIndex = navigableElements.indexOf(profileLinks[prevLinkIndex]);
+                              if(prevTabIndex >= 0){
+                                 targetIndex = navigableElements.indexOf(tabs[prevTabIndex]);
                                  selectElement(targetIndex);
                              }
-                        }
+                         }
+                          // Profil linklerinde sol ok önceki linke gitsin
+                          else if (profileLinks.includes(currentElement)) {
+                              event.preventDefault();
+                              const currentLinkIndex = profileLinks.indexOf(currentElement);
+                              const prevLinkIndex = currentLinkIndex - 1;
+                              if(prevLinkIndex >= 0){
+                                   targetIndex = navigableElements.indexOf(profileLinks[prevLinkIndex]);
+                                   selectElement(targetIndex);
+                               }
+                          }
                         break;
 
                     case 'Enter':
                         if (currentElement) {
-                             let linkToOpen = null;
-                             if (isProfileLink) { // Seçili öğe bir profil linki (kendisi link)
-                                 linkToOpen = currentElement;
-                             } else if (isProjectItem) { // Seçili öğe bir proje listesi elemanı
-                                 linkToOpen = currentElement.querySelector('a.project-link'); // İçindeki linki bul
-                             }
+                            let linkToOpen = null;
+                             const isProfileLink = profileLinks.includes(currentElement);
+                             const isProjectItem = projectItems.includes(currentElement);
 
-                             if (linkToOpen && linkToOpen.href) {
-                                 event.preventDefault();
-                                 window.open(linkToOpen.href, '_blank');
-                             }
-                             // Sekmelerde Enter'a basınca bir şey yapmıyoruz.
+                            if (isProfileLink) { // Seçili öğe bir profil linki (kendisi link)
+                                linkToOpen = currentElement;
+                            } else if (isProjectItem) { // Seçili öğe bir proje listesi elemanı
+                                linkToOpen = currentElement.querySelector('a.project-link'); // İçindeki linki bul
+                            }
+
+                            if (linkToOpen && linkToOpen.href) {
+                                event.preventDefault();
+                                window.open(linkToOpen.href, '_blank');
+                            }
+                            // Sekmelerde Enter'a basınca bir şey yapmıyoruz.
                         }
                         break;
 
                     case 'Home':
                          event.preventDefault();
-                         selectElement(0); // Tüm listenin en başına (ilk sekme)
+                         // Home: İlk sekmeye git
+                         targetIndex = navigableElements.indexOf(tabs[0] || navigableElements[0]); // İlk sekme yoksa ilk eleman
+                         selectElement(targetIndex);
                          break;
 
                     case 'End':
                          event.preventDefault();
-                         selectElement(navigableElements.length - 1); // Tüm listenin en sonuna (son proje)
+                          // End: Son proje öğesine git
+                          targetIndex = navigableElements.indexOf(projectItems[projectItems.length - 1] || navigableElements[navigableElements.length - 1]); // Son proje yoksa son eleman
+                         selectElement(targetIndex);
                          break;
                 }
             });
 
              // --- Fare Etkileşimleri ---
              navigableElements.forEach((element, index) => {
-                 element.addEventListener('mouseenter', () => {
-                     // Fare üzerine gelince de seçimi güncelle (klavye seçimini takip etsin)
-                     selectElement(index);
-                 });
+                  element.addEventListener('mouseenter', () => {
+                      // Fare üzerine gelince de seçimi güncelle (klavye seçimini takip etsin)
+                      selectElement(index);
+                  });
 
-                 element.addEventListener('click', (e)=> {
-                     // Sekmelere tıklanınca seçimi oraya getir (Enter gibi davranmasın)
-                     if (tabs.includes(element)) {
-                         selectElement(index);
-                     }
-                     // Profil linkine tıklama zaten yeni sekmede açar (varsayılan davranış)
-                     // Proje li elementine tıklayınca içindeki linki açalım (Enter gibi)
-                     else if (projectItems.includes(element)) {
-                         const link = element.querySelector('a.project-link');
-                         if (link && link.href) {
-                            // Belki zaten linke tıklandıysa tekrar açmaya gerek yok?
-                            // Sadece li'nin boş alanına tıklanınca açsın?
-                            if (e.target === element || e.target === element.querySelector('span.description') || e.target === element.querySelector('span.project-name') ) {
-                                 window.open(link.href, '_blank');
-                            }
-                         }
-                     }
-                 });
+                  element.addEventListener('click', (e)=> {
+                      // Sekmelere tıklanınca seçimi oraya getir (Enter gibi davranmasın)
+                      if (tabs.includes(element)) {
+                          selectElement(index); // Zaten mouseenter yapıyor ama yine de ekleyelim.
+                      }
+                      // Profil linkine tıklama zaten yeni sekmede açar (varsayılan davranış)
+
+                      // Proje li elementine tıklayınca içindeki linki açalım (Enter gibi)
+                      else if (projectItems.includes(element)) {
+                          const link = element.querySelector('a.project-link');
+                          if (link && link.href) {
+                              // Sadece li'nin boş alanına veya link olmayan span'lara tıklanınca açsın
+                              // (Linke tıklanınca zaten açılır)
+                              if (e.target === element || e.target.closest('span') ) {
+                                   // e.target.closest('a') linke tıklandıysa null döner, diğerlerinde span veya li döner.
+                                   if (!e.target.closest('a')) {
+                                     window.open(link.href, '_blank');
+                                   }
+                              }
+                          }
+                      }
+                  });
              });
 
             // --- Başlangıç Seçimi ---
