@@ -134,14 +134,27 @@
             padding-left: 0;
         }
 
+        /* Proje Listesi Öğesi Stilleri */
         li {
             margin-bottom: 8px;
             cursor: default;
+            padding: 2px 5px; /* Vurgu için biraz dolgu */
+            transition: background-color 0.1s ease, color 0.1s ease; /* Yumuşak geçiş */
         }
+
+        /* Fare ile üzerine gelme stili */
         li:hover {
-             background-color: #888888; /* Satır üzerine gelince gri arka plan */
-             color: #01016A; /* Yazı rengi mavi */
+             background-color: #888888; /* Gri Arka Plan */
+             color: #01016A;           /* Mavi Yazı */
         }
+        li:hover span.description {
+              color: #01016A; /* Hover: Açıklama mavi */
+         }
+         li:hover a.project-link {
+             color: #FFFF00; /* Hover: Sarı Link */
+             background-color: transparent; /* Vurgu rengi li'den gelsin */
+         }
+
 
         /* Proje Linki (varsa) */
         li a.project-link {
@@ -168,7 +181,19 @@
          li:hover span.description {
               color: #01016A; /* Hover: Açıklama mavi */
          }
-
+       /* Klavye ile seçilen öğe stili */
+        li.selected-item {
+            background-color: #888888 !important; /* Gri Arka Plan (Hover'ı ezer) */
+            color: #01016A !important;           /* Mavi Yazı (Hover'ı ezer) */
+            outline: 1px dotted #FFFFFF; /* Seçimi daha belirgin yapmak için ince çerçeve */
+        }
+        li.selected-item span.description {
+             color: #01016A !important; /* Seçili: Açıklama mavi */
+        }
+         li.selected-item a.project-link {
+             color: #FFFF00 !important; /* Seçili: Sarı Link */
+             background-color: transparent !important; /* Vurgu rengi li'den gelsin */
+         }
 
         /* Alt Kısım (Footer - Komutlar) */
         .bios-footer {
@@ -198,6 +223,13 @@
             vertical-align: text-bottom;
             animation: blink 1s step-end infinite;
         }
+        .main-content {
+            flex-grow: 1;
+            padding-right: 15px;
+            overflow-y: auto; /* İçerik sığmazsa kaydırma çubuğu çıksın */
+            /* border-right: 1px solid #888888; */
+        }
+
         @keyframes blink {
             from, to { background-color: transparent; }
             50% { background-color: #FFFFFF; }
@@ -230,7 +262,7 @@
                 </div>
 
                 <h2>Projelerim</h2>
-                <ul>
+                <ul id="project-list">
                     <li>
                         <a href="PROJE_LINKI_1" target="_blank" class="project-link">Proje Adı 1</a>
                         <span class="description">React ve Node.js kullanıldı.</span>
@@ -271,5 +303,104 @@
            <span><strong>F10</strong>Save and Exit</span>
         </footer>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectList = document.getElementById('project-list');
+            // Sadece doğrudan projectList'in altındaki li'leri alalım
+            const items = Array.from(projectList.children).filter(child => child.tagName === 'LI');
+            let selectedIndex = -1; // Başlangıçta hiçbir öğe seçili değil
+
+            // Seçimi güncelleyen ve vurgulayan fonksiyon
+            function selectItem(index) {
+                // Önceki seçimi temizle
+                if (selectedIndex !== -1 && items[selectedIndex]) {
+                    items[selectedIndex].classList.remove('selected-item');
+                }
+
+                // Yeni indeksi ayarla ve sınırlar içinde kalmasını sağla
+                if (index < 0) {
+                    selectedIndex = 0; // İlk öğeye git
+                } else if (index >= items.length) {
+                    selectedIndex = items.length - 1; // Son öğeye git
+                } else {
+                    selectedIndex = index;
+                }
+
+                // Yeni öğeyi vurgula
+                if (items[selectedIndex]) {
+                    items[selectedIndex].classList.add('selected-item');
+                    // Seçilen öğeyi görünür alana kaydır
+                    items[selectedIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+
+            // Klavye olaylarını dinle
+            document.addEventListener('keydown', (event) => {
+                // Eğer liste boşsa veya görünür değilse işlem yapma (isteğe bağlı)
+                if (!items.length) return;
+
+                switch (event.key) {
+                    case 'ArrowDown':
+                        event.preventDefault(); // Sayfanın kaymasını engelle
+                        selectItem(selectedIndex + 1);
+                        break;
+                    case 'ArrowUp':
+                        event.preventDefault(); // Sayfanın kaymasını engelle
+                        selectItem(selectedIndex - 1);
+                        break;
+                    case 'Enter':
+                        if (selectedIndex !== -1 && items[selectedIndex]) {
+                            // Seçili öğe içindeki ilk linki bul
+                            const link = items[selectedIndex].querySelector('a.project-link');
+                            if (link) {
+                                event.preventDefault(); // Form gönderme gibi varsayılan eylemleri engelle
+                                // Linki yeni sekmede aç (target="_blank" davranışını koru)
+                                window.open(link.href, '_blank');
+                                // Veya aynı sekmede açmak için:
+                                // window.location.href = link.href;
+                            }
+                        }
+                        break;
+                    case 'Home': // Listenin başına git
+                         event.preventDefault();
+                         selectItem(0);
+                         break;
+                    case 'End': // Listenin sonuna git
+                         event.preventDefault();
+                         selectItem(items.length - 1);
+                         break;
+                }
+            });
+
+             // Fare ile bir öğenin üzerine gelindiğinde klavye seçimini güncelle
+             items.forEach((item, index) => {
+                 item.addEventListener('mouseenter', () => {
+                     selectItem(index);
+                 });
+                 // Linklere tıklanınca varsayılan davranışı engelleme (yeni sekmede açılacak zaten)
+                 const link = item.querySelector('a.project-link');
+                 if (link) {
+                     link.addEventListener('click', (e) => {
+                         // Gerekirse burada ek işlem yapılabilir ama window.open zaten işi görüyor.
+                         // e.preventDefault(); // Normal tıklamayı engellemek isterseniz
+                     });
+                 }
+             });
+
+            // Sayfa yüklendiğinde ilk öğeyi seçili yapabiliriz (isteğe bağlı)
+             // selectItem(0);
+
+             // Linklere tabindex="-1" ekleyerek normal TAB tuşu ile gezinmeyi engelle
+             // (isteğe bağlı, sadece ok tuşları ile kontrol istiyorsak)
+             projectList.querySelectorAll('a, span[tabindex]').forEach(el => el.setAttribute('tabindex', '-1'));
+             document.querySelectorAll('.profile-links a').forEach(el => el.setAttribute('tabindex', '-1'));
+
+        });
+    </script>
+
+
+
 </body>
 </html>
