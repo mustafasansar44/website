@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adınız Soyadınız - PhoenixBIOS Style</title>
+    <style>
+        /* Genel Sayfa Ayarları */
+        body {
+            background-color: #000000; /* Tam Siyah Arka Plan */
+            color: #A0A0A0;           /* Ana Metin Rengi (Gri) */
+            font-family: 'Lucida Console', 'Courier New', monospace; /* BIOS'a daha yakın fontlar */
+            font-size: 15px;          /* Biraz daha küçük font */
+            margin: 0;
+            padding: 1px; /* Kenarlıkların gövdeden taşmasını önlemek için minimal padding */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Ana Ekran Çerçevesi */
+        .bios-container {
+            border: 2px solid #888888; /* Dış çerçeve */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 5px; /* Çerçeve ile ekran kenarı arası boşluk */
+            background-color: #01016A; /* Koyu Mavi İç Arka Plan */
+            overflow: hidden; /* Taşmaları engelle */
+        }
+
+        /* Üst Başlık Çubuğu */
+        .bios-header {
+            background-color: #888888; /* Gri Arka Plan */
+            color: #01016A;           /* Koyu Mavi Yazı */
+            padding: 3px 10px;
+            text-align: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Sekme Menüsü (Simülasyon) */
+        .bios-tabs {
+            background-color: #01016A; /* Koyu Mavi Arka Plan */
+            color: #FFFFFF;
+            padding: 5px 10px;
+            border-bottom: 1px solid #888888;
+            flex-shrink: 0;
+        }
+
+        .bios-tabs span {
+            margin-right: 20px;
+            padding: 2px 5px;
+            cursor: default; /* Tıklanamaz olduğunu belirt */
+        }
+
+        .bios-tabs span.selected {
+            background-color: #FF0000; /* Kırmızı Seçili Sekme Arka Planı */
+            color: #FFFFFF; /* Beyaz Yazı */
+        }
+
+        /* Ana İçerik Alanı ve Kenar Çubuğu */
+        .bios-body {
+            display: flex;
+            flex-grow: 1;
+            color: #FFFFFF; /* Ana içerik alanı beyaz yazı */
+            padding: 10px;
+        }
+
+        /* Sol İçerik Bölümü (Ana) */
+        .main-content {
+            flex-grow: 1;
+            padding-right: 15px;
+            /* border-right: 1px solid #888888; */ /* İsteğe bağlı ayıraç */
+        }
+
+        /* Sağ Yardım Bölümü (Simülasyon) */
+        .help-sidebar {
+            flex-basis: 220px; /* Sabit genişlik */
+            flex-shrink: 0;
+            padding-left: 15px;
+            border-left: 1px solid #888888;
+            font-size: 0.9em;
+            color: #A0A0A0; /* Yardım metni gri */
+        }
+        .help-sidebar strong {
+            color: #FFFFFF; /* Yardım başlığı beyaz */
+            display: block;
+            margin-bottom: 8px;
+        }
+
+
+        /* Başlık (Ad Soyad) */
+        h1 {
+            color: #FFFFFF;
+            font-size: 1.4em;
+            margin: 5px 0 15px 0;
+            text-align: left;
+        }
+
+        /* Profil Linkleri */
+        .profile-links {
+            margin-bottom: 25px;
+        }
+
+        .profile-links a {
+            color: #FFFF00; /* Sarı Link Rengi */
+            text-decoration: none;
+            margin-right: 15px;
+            display: inline-block;
+            background-color: #01016A; /* Mavi zemin üzerine sarı */
+            padding: 1px 3px;
+        }
+
+        .profile-links a:hover {
+            background-color: #FF0000; /* Hover: Kırmızı Arka Plan */
+            color: #FFFFFF;
+        }
+
+        /* Projeler Başlığı */
+        h2 {
+            color: #FFFFFF;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-top: 1px dashed #888888; /* Üstüne kesik çizgi */
+            padding-top: 10px;
+        }
+
+        /* Proje Listesi */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+            cursor: default;
+        }
+        li:hover {
+             background-color: #888888; /* Satır üzerine gelince gri arka plan */
+             color: #01016A; /* Yazı rengi mavi */
+        }
+
+        /* Proje Linki (varsa) */
+        li a.project-link {
+             color: #00FFFF; /* Cyan Proje Linki */
+             text-decoration: none;
+             font-weight: bold;
+        }
+         li a.project-link:hover {
+             color: #FFFF00; /* Hover: Sarı */
+             background-color: inherit; /* Arka planı satırla aynı olsun */
+         }
+
+        /* Proje Adı (link yoksa) */
+        li span.project-name {
+            color: #FFFFFF; /* Beyaz Proje Adı */
+            font-weight: bold;
+        }
+
+        /* Proje Açıklaması */
+        li span.description {
+            color: #A0A0A0; /* Açıklama Gri */
+            margin-left: 10px;
+        }
+         li:hover span.description {
+              color: #01016A; /* Hover: Açıklama mavi */
+         }
+
+
+        /* Alt Kısım (Footer - Komutlar) */
+        .bios-footer {
+            background-color: #888888; /* Gri Arka Plan */
+            color: #01016A;           /* Mavi Yazı */
+            padding: 5px 10px;
+            font-size: 0.9em;
+            flex-shrink: 0;
+            text-align: left; /* Komutları sola yasla */
+        }
+        .bios-footer span {
+            margin-right: 15px;
+        }
+         .bios-footer strong {
+             background-color: #01016A; /* Tuşlar mavi arka plan */
+             color: #FFFFFF; /* Tuşlar beyaz yazı */
+             padding: 0 3px;
+             margin-right: 3px;
+         }
+
+        /* İmleç */
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.1em;
+            background-color: #FFFFFF;
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { background-color: transparent; }
+            50% { background-color: #FFFFFF; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="bios-container">
+        <header class="bios-header">
+            PhoenixBIOS Setup Utility
+        </header>
+
+        <nav class="bios-tabs">
+            <span>Main</span>
+            <span>Advanced</span>
+            <span class="selected">Portfolio</span> <span>Security</span>
+            <span>Boot</span>
+            <span>Exit</span>
+        </nav>
+
+        <div class="bios-body">
+            <main class="main-content">
+                <h1>Adınız Soyadınız</h1>
+
+                <div class="profile-links">
+                    <a href="https://github.com/KULLANICIADINIZ" target="_blank">GitHub Profil</a>
+                    <a href="https://medium.com/@KULLANICIADINIZ" target="_blank">Medium Yazıları</a>
+                    <a href="https://linkedin.com/in/KULLANICIADINIZ" target="_blank">LinkedIn Bağlantısı</a>
+                </div>
+
+                <h2>Projelerim</h2>
+                <ul>
+                    <li>
+                        <a href="PROJE_LINKI_1" target="_blank" class="project-link">Proje Adı 1</a>
+                        <span class="description">React ve Node.js kullanıldı.</span>
+                    </li>
+                    <li>
+                        <span class="project-name">Proje Adı 2 (Demo)</span>
+                        <span class="description">Mobil uyumlu arayüz çalışması.</span>
+                    </li>
+                     <li>
+                        <a href="PROJE_LINKI_3" target="_blank" class="project-link">Python Script Koleksiyonu</a>
+                        <span class="description">Otomasyon için yardımcı araçlar.</span>
+                    </li>
+                     <li>
+                        <span class="project-name">Gizli Proje X</span>
+                        <span class="description">Geliştirme aşamasında.</span>
+                    </li>
+                     </ul>
+                 <span class="cursor">_</span> </main>
+
+            <aside class="help-sidebar">
+                <strong>Yardım</strong>
+                <p>Bu alanda projelerim ve profesyonel bağlantılarım yer almaktadır.</p>
+                <p>Projelerin üzerine gelerek detayları (simüle edilmiş) görebilir veya linklerine tıklayarak ilgili sayfaya gidebilirsiniz.</p>
+                <br>
+                <strong>Navigasyon</strong>
+                <p>Sekmeler arasında geçiş yapılamaz (bu sadece görsel bir simülasyondur).</p>
+                <p>Linklere tıklayarak yeni sekmede açabilirsiniz.</p>
+            </aside>
+        </div>
+
+        <footer class="bios-footer">
+           <span><strong>&uarr;&darr;</strong>Select Item</span>
+           <span><strong>Enter</strong>Select</span>
+           <span><strong>+/-</strong>Change Values</span>
+           <span><strong>F1</strong>Help</span>
+           <span><strong>ESC</strong>Exit</span>
+           <span><strong>F9</strong>Setup Defaults</span>
+           <span><strong>F10</strong>Save and Exit</span>
+        </footer>
+    </div>
+</body>
+</html>
