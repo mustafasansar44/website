@@ -1,4 +1,4 @@
-        /* Genel Sayfa Ayarları */
+/* Genel Sayfa Ayarları */
         body {
             background-color: #000000; /* Tam Siyah Arka Plan */
             color: #A0A0A0;          /* Ana Metin Rengi (Gri) */
@@ -71,7 +71,7 @@
 
         /* Sağ Yardım Bölümü (Simülasyon) */
         .help-sidebar {
-            flex-basis: 220px; /* Sabit genişlik (Mobil hariç) */
+            flex-basis: 300px; /* Sabit genişlik (Mobil hariç) */
             flex-shrink: 0;
             padding-left: 15px;
             border-left: 1px solid #888888; /* (Mobil hariç) */
@@ -269,6 +269,27 @@
             50% { background-color: #FFFFFF; }
         }
 
+        /* Dil Seçici */
+        .language-selector {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .language-selector button {
+            background: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .language-selector button:hover {
+            background: #0f0;
+            color: #000;
+        }
 
         /* --- Responsive Design --- */
 

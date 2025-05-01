@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mustafa SANSAR</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="./languages/tr.js"></script>
+    <script src="./languages/en.js"></script>
 </head>
 <body>
     <div class="bios-container">
         <header class="bios-header">
-            PhoenixBIOS Setup Utility
+            <div class="language-selector" id="language-selector-buttons">
+                <button onclick="changeLanguage('tr')">TR</button>
+                <button onclick="changeLanguage('en')">EN</button>
+            </div>
+            <span data-i18n="header">PhoenixBIOS Setup Utility</span>
         </header>
 
         <nav class="bios-tabs" id="bios-tabs-nav">
@@ -24,65 +30,73 @@
         <div class="bios-body">
             <main class="main-content">
                 <h1>Mustafa SANSAR</h1>
-                <span class="description">
-                    Merhaba, ben Mustafa. Gazi Üniversitesi Bilgisayar Mühendisliği mezunuyum.
-                    Özellikle Java & Spring boot olmak üzere çeşitli projeler geliştirdim ve geliştirmeye
-                    devam ediyorum. Full Stack alanında (Java Spring boot, Angular) yaklaşık 1 senelik iş
-                    tecrübem mevcut.
-                </span>
+                <span class="description" data-i18n="content.description"></span>
 
                 <div class="profile-links" id="profile-links-list">
-                    <a href="https://github.com/mustafasansar44" target="_blank">GitHub Profil</a>
-                    <a href="https://medium.com/@mustafasansar44" target="_blank">Medium Yazıları</a>
-                    <a href="https://linkedin.com/in/mustafasansar" target="_blank">LinkedIn Bağlantısı</a>
+                    <a href="https://github.com/mustafasansar44" target="_blank" data-i18n="content.profile_links.github"></a>
+                    <a href="https://medium.com/@mustafasansar44" target="_blank" data-i18n="content.profile_links.medium"></a>
+                    <a href="https://linkedin.com/in/mustafasansar" target="_blank" data-i18n="content.profile_links.linkedin"></a>
                 </div>
 
                 <h2>Projelerim (Güncelden Eskiye)</h2>
                 <ul id="project-list">
                      <li>
-                         <a href="#" target="_blank" class="project-link">Oyun Projesi (Unity)</a>
-                         <span class="project-date">[Başlangıç: Mart 2025]</span>
-                         <span class="description">Geliştirme aşamasında.</span>
+                         <a href="#" target="_blank" class="project-link" data-i18n="content.projects.project_1.title"></a>
+                         <span class="project-date" data-i18n="content.projects.project_1.start_date"></span>
+                         <span class="description" data-i18n="content.projects.project_1.description"></span>
                      </li>
                      <li>
-                         <a href="https://github.com/mustafasansar44/plate-search" target="_blank" class="project-link">Plate Search (React Native & Supabase)</a>
-                         <span class="project-date">[Başlangıç: Ocak 2025]</span>
-                         <span class="description">Plaka arama uygulaması. Kullanıcılar, araç plakalarını aratabilir ya da yorum girebilirler.</span>
+                         <a href="https://github.com/mustafasansar44/plate-search" target="_blank" class="project-link" data-i18n="content.projects.project_2.title"></a>
+                         <span class="project-date" data-i18n="content.projects.project_2.start_date"></span>
+                         <span class="description" data-i18n="content.projects.project_2.description"></span>
                      </li>
                       <li>
-                         <a href="https://github.com/mustafasansar44/WordMemorization-microservice" target="_blank" class="project-link">Word Memorization Mikroservice</a>
-                         <span class="project-date">[Başlangıç: Şubat 2024]</span>
-                         <span class="description">Mevcut Word Memorization Monolitik projemi mikroservis'e çevirme projem.</span>
+                         <a href="https://github.com/mustafasansar44/WordMemorization-microservice" target="_blank" class="project-link" data-i18n="content.projects.project_3.title"></a>
+                         <span class="project-date" data-i18n="content.projects.project_3.start_date"></span>
+                         <span class="description" data-i18n="content.projects.project_3.description"></span>
                      </li>
                       <li>
-                         <a href="https://github.com/mustafasansar44/WordMemorization" class="project-link">Word Memorization</a>
-                           <span class="project-date">[Başlangıç: Ocak 2023]</span>
-                         <span class="description">Üniversitedeyken ingilizce kelime ezberi yapmamı kolaşlaştırması için yazdığım backend proje.</span>
+                         <a href="https://github.com/mustafasansar44/WordMemorization" class="project-link" data-i18n="content.projects.project_4.title"></a>
+                           <span class="project-date" data-i18n="content.projects.project_4.start_date"></span>
+                         <span class="description" data-i18n="content.projects.project_4.description"></span>
                      </li>
                       <li>
-                         <a href="https://github.com/mustafasansar44/laborant-backend" target="_blank" class="project-link">Laborant Frontend & Backend</a>
-                         <span class="project-date">[Başlangıç: Mart 2023]</span>
-                         <span class="description">Hastane laboratuvatı için geliştirdiğim proje.</span>
+                         <a href="https://github.com/mustafasansar44/laborant-backend" target="_blank" class="project-link" data-i18n="content.projects.project_5.title"></a>
+                         <span class="project-date" data-i18n="content.projects.project_5.start_date"></span>
+                         <span class="description" data-i18n="content.projects.project_5.description"></span>
                      </li>
                       <li>
-                         <a href="https://github.com/mustafasansar44/metin2-farmbot" target="_blank" class="project-link">Metin2 Farmbot</a>
-                         <span class="project-date">[Başlangıç: Ocak 2024]</span>
-                         <span class="description">Metin2'de görüntü işleme ile metin taşlarının konumunu saptayıp otomatik olarak saldıran bot.</span>
+                         <a href="https://github.com/mustafasansar44/metin2-farmbot" target="_blank" class="project-link" data-i18n="content.projects.project_6.title"></a>
+                         <span class="project-date" data-i18n="content.projects.project_6.start_date"></span>
+                         <span class="description" data-i18n="content.projects.project_6.description"></span>
                      </li>
                  </ul>
                 <span class="cursor">_</span>
             </main>
 
             <aside class="help-sidebar">
-                <strong>Yardım</strong>
-                <p>Klavye ok tuşları (Yukarı/Aşağı/Sol/Sağ), Home, End ve Enter tuşlarını kullanarak gezinebilirsiniz.</p>
-                <p>Projelerin veya profil linklerinin üzerine gelip Enter'a basarak ilgili sayfayı açabilirsiniz.</p>
+                <strong data-i18n="content.help.title_sec.title"></strong>
+                <p data-i18n="content.help.title_sec.p1"></p>
+                <p data-i18n="content.help.title_sec.p2"></p>
                 <br>
-                <strong>Navigasyon</strong>
-                 <p><strong>&uarr;&darr;</strong>: Yukarı/Aşağı Seçim</p>
-                 <p><strong>&larr;&rarr;</strong>: Sekmelerde/Linklerde Gezinme</p>
-                 <p><strong>Enter</strong>: Linki Aç</p>
-                 <p><strong>Home/End</strong>: Liste Başı/Sonu</p>
+                <strong data-i18n="content.help.navigation_sec.title" style="margin-bottom: 20px;"></strong>
+                <div style="display: flex">
+                    <strong style="display: inline-block;">&uarr;&darr;</strong> :
+                    <p data-i18n="content.help.navigation_sec.hint1"></p>
+                </div>
+                 <div style="display: flex">
+                    <strong style="display: inline-block;">&larr;&rarr;</strong> :
+                     <p data-i18n="content.help.navigation_sec.hint2"></p>
+                 </div>
+                 <div style="display: flex">
+                    <strong style="display: inline-block;">Enter</strong> :
+                    <p data-i18n="content.help.navigation_sec.hint3"></p>
+                 </div>
+                 <div style="display: flex">
+                    <strong style="display: inline-block;">Home/End</strong> :
+                    <p data-i18n="content.help.navigation_sec.hint4"></p>
+                 </div>
+                 
             </aside>
         </div>
 
