@@ -1,0 +1,19 @@
+portfolio-website
+├── src
+│   ├── js
+│   │   ├── main.js
+│   │   ├── themeToggle.js
+│   │   └── projectDetails.js
+│   ├── css
+│   │   ├── style.css
+│   │   ├── theme.css
+│   │   └── projects.css
+│   └── pages
+│       └── index.html
+├── assets
+│   └── fonts
+├── scripts
+│   └── build.js
+├── .gitignore
+├── package.json
+└── README.md
