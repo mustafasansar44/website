@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adınız Soyadınız - PhoenixBIOS Style</title>
+    <title>Adınız Soyadınız - PhoenixBIOS Style (Full Klavye Kontrol)</title>
     <style>
         /* Genel Sayfa Ayarları */
         body {
@@ -47,17 +47,14 @@
             padding: 5px 10px;
             border-bottom: 1px solid #888888;
             flex-shrink: 0;
+            white-space: nowrap; /* Sekmelerin alt satıra kaymasını engelle */
         }
 
         .bios-tabs span {
             margin-right: 20px;
             padding: 2px 5px;
             cursor: default; /* Tıklanamaz olduğunu belirt */
-        }
-
-        .bios-tabs span.selected {
-            background-color: #FF0000; /* Kırmızı Seçili Sekme Arka Planı */
-            color: #FFFFFF; /* Beyaz Yazı */
+            display: inline-block; /* Düzgün hizalama ve çerçeve için */
         }
 
         /* Ana İçerik Alanı ve Kenar Çubuğu */
@@ -66,12 +63,14 @@
             flex-grow: 1;
             color: #FFFFFF; /* Ana içerik alanı beyaz yazı */
             padding: 10px;
+            overflow: hidden; /* İçeriğin taşmasını engelle */
         }
 
         /* Sol İçerik Bölümü (Ana) */
         .main-content {
             flex-grow: 1;
             padding-right: 15px;
+            overflow-y: auto; /* İçerik sığmazsa dikey kaydırma */
             /* border-right: 1px solid #888888; */ /* İsteğe bağlı ayıraç */
         }
 
@@ -83,13 +82,18 @@
             border-left: 1px solid #888888;
             font-size: 0.9em;
             color: #A0A0A0; /* Yardım metni gri */
+            overflow-y: auto; /* Yardım metni sığmazsa kaydır */
         }
         .help-sidebar strong {
             color: #FFFFFF; /* Yardım başlığı beyaz */
             display: block;
             margin-bottom: 8px;
         }
-
+         .help-sidebar p {
+            margin-top: 0;
+            margin-bottom: 10px;
+            line-height: 1.4;
+         }
 
         /* Başlık (Ad Soyad) */
         h1 {
@@ -111,11 +115,7 @@
             display: inline-block;
             background-color: #01016A; /* Mavi zemin üzerine sarı */
             padding: 1px 3px;
-        }
-
-        .profile-links a:hover {
-            background-color: #FF0000; /* Hover: Kırmızı Arka Plan */
-            color: #FFFFFF;
+            transition: background-color 0.1s ease, color 0.1s ease;
         }
 
         /* Projeler Başlığı */
@@ -129,68 +129,88 @@
         }
 
         /* Proje Listesi */
-        ul {
+        #project-list { /* ID ile seçici */
             list-style: none;
             padding-left: 0;
+             margin-top: 0; /* H2 ile boşluğu ayarla */
         }
 
         /* Proje Listesi Öğesi Stilleri */
-        li {
+        #project-list li { /* ID ile seçici */
             margin-bottom: 8px;
             cursor: default;
             padding: 2px 5px; /* Vurgu için biraz dolgu */
             transition: background-color 0.1s ease, color 0.1s ease; /* Yumuşak geçiş */
         }
 
-        /* Fare ile üzerine gelme stili */
-        li:hover {
-             background-color: #888888; /* Gri Arka Plan */
-             color: #01016A;           /* Mavi Yazı */
-        }
-        li:hover span.description {
-              color: #01016A; /* Hover: Açıklama mavi */
-         }
-         li:hover a.project-link {
-             color: #FFFF00; /* Hover: Sarı Link */
-             background-color: transparent; /* Vurgu rengi li'den gelsin */
-         }
-
-
         /* Proje Linki (varsa) */
-        li a.project-link {
+        #project-list li a.project-link { /* ID ile seçici */
              color: #00FFFF; /* Cyan Proje Linki */
              text-decoration: none;
              font-weight: bold;
         }
-         li a.project-link:hover {
-             color: #FFFF00; /* Hover: Sarı */
-             background-color: inherit; /* Arka planı satırla aynı olsun */
-         }
 
         /* Proje Adı (link yoksa) */
-        li span.project-name {
+        #project-list li span.project-name { /* ID ile seçici */
             color: #FFFFFF; /* Beyaz Proje Adı */
             font-weight: bold;
         }
 
         /* Proje Açıklaması */
-        li span.description {
+        #project-list li span.description { /* ID ile seçici */
             color: #A0A0A0; /* Açıklama Gri */
             margin-left: 10px;
         }
-         li:hover span.description {
-              color: #01016A; /* Hover: Açıklama mavi */
+
+        /* Fare ile üzerine gelme efektleri (isteğe bağlı, kb-selected ezecek) */
+        .profile-links a:hover {
+             background-color: #AA0000; /* Hover: Kırmızı tonu Arka Plan */
+             color: #FFFFFF;
+        }
+        #project-list li:hover {
+             background-color: #2a2a8a; /* Hover için hafif farklı mavi */
+             color: #FFFFFF;
+        }
+         #project-list li:hover span.description {
+              color: #CCCCCC; /* Hover: Açıklama açık gri */
          }
-       /* Klavye ile seçilen öğe stili */
-        li.selected-item {
+         #project-list li:hover a.project-link {
+             color: #FFFF00; /* Hover: Sarı Link */
+             background-color: transparent;
+         }
+
+        /* --- Klavye Seçim Stilleri --- */
+
+        /* Sekme Seçimi (JS Yönetecek) */
+        .bios-tabs span.selected {
+            background-color: #FF0000; /* Kırmızı Seçili Sekme Arka Planı */
+            color: #FFFFFF; /* Beyaz Yazı */
+            outline: 1px dotted #FFFFFF; /* Seçimi belirtmek için çerçeve */
+        }
+         /* Normalde seçili olmayan ama klavye ile seçilen sekme */
+         .bios-tabs span.kb-selected-tab {
+             background-color: #888888 !important; /* Gri vurgu */
+             color: #01016A !important; /* Mavi yazı */
+             outline: 1px dotted #FFFFFF;
+         }
+
+        /* Profil Linkleri Seçimi */
+        .profile-links a.kb-selected {
+            background-color: #888888 !important; /* Gri Arka Plan */
+            color: #FFFFFF !important; /* Beyaz Yazı */
+            outline: 1px dotted #FFFFFF;
+        }
+
+        /* Proje Listesi Seçimi */
+        #project-list li.kb-selected { /* ID ile seçici */
             background-color: #888888 !important; /* Gri Arka Plan (Hover'ı ezer) */
             color: #01016A !important;           /* Mavi Yazı (Hover'ı ezer) */
             outline: 1px dotted #FFFFFF; /* Seçimi daha belirgin yapmak için ince çerçeve */
         }
-        li.selected-item span.description {
+        #project-list li.kb-selected span.description { /* ID ile seçici */
              color: #01016A !important; /* Seçili: Açıklama mavi */
         }
-         li.selected-item a.project-link {
+         #project-list li.kb-selected a.project-link { /* ID ile seçici */
              color: #FFFF00 !important; /* Seçili: Sarı Link */
              background-color: transparent !important; /* Vurgu rengi li'den gelsin */
          }
@@ -203,9 +223,12 @@
             font-size: 0.9em;
             flex-shrink: 0;
             text-align: left; /* Komutları sola yasla */
+            white-space: nowrap; /* Footer taşarsa kaydırma çubuğu çıksın */
+            overflow-x: auto;
         }
         .bios-footer span {
             margin-right: 15px;
+            display: inline-block; /* Düzgün görünüm için */
         }
          .bios-footer strong {
              background-color: #01016A; /* Tuşlar mavi arka plan */
@@ -221,13 +244,8 @@
             height: 1.1em;
             background-color: #FFFFFF;
             vertical-align: text-bottom;
+            margin-left: 2px; /* İmleç ile metin arası boşluk */
             animation: blink 1s step-end infinite;
-        }
-        .main-content {
-            flex-grow: 1;
-            padding-right: 15px;
-            overflow-y: auto; /* İçerik sığmazsa kaydırma çubuğu çıksın */
-            /* border-right: 1px solid #888888; */
         }
 
         @keyframes blink {
@@ -243,10 +261,10 @@
             PhoenixBIOS Setup Utility
         </header>
 
-        <nav class="bios-tabs">
+        <nav class="bios-tabs" id="bios-tabs-nav">
             <span>Main</span>
             <span>Advanced</span>
-            <span class="selected">Portfolio</span> <span>Security</span>
+            <span>Portfolio</span> <span>Security</span>
             <span>Boot</span>
             <span>Exit</span>
         </nav>
@@ -255,7 +273,7 @@
             <main class="main-content">
                 <h1>Adınız Soyadınız</h1>
 
-                <div class="profile-links">
+                <div class="profile-links" id="profile-links-list">
                     <a href="https://github.com/KULLANICIADINIZ" target="_blank">GitHub Profil</a>
                     <a href="https://medium.com/@KULLANICIADINIZ" target="_blank">Medium Yazıları</a>
                     <a href="https://linkedin.com/in/KULLANICIADINIZ" target="_blank">LinkedIn Bağlantısı</a>
@@ -279,128 +297,267 @@
                         <span class="project-name">Gizli Proje X</span>
                         <span class="description">Geliştirme aşamasında.</span>
                     </li>
+                     <li>
+                        <a href="PROJE_LINKI_4" target="_blank" class="project-link">Veri Analizi Paneli</a>
+                        <span class="description">Pandas ve Plotly ile.</span>
+                    </li>
+                     <li>
+                        <a href="PROJE_LINKI_5" target="_blank" class="project-link">Basit Oyun</a>
+                        <span class="description">JavaScript ile yapıldı.</span>
+                    </li>
                      </ul>
                  <span class="cursor">_</span> </main>
 
             <aside class="help-sidebar">
-                <strong>Yardım</strong>
-                <p>Bu alanda projelerim ve profesyonel bağlantılarım yer almaktadır.</p>
-                <p>Projelerin üzerine gelerek detayları (simüle edilmiş) görebilir veya linklerine tıklayarak ilgili sayfaya gidebilirsiniz.</p>
-                <br>
-                <strong>Navigasyon</strong>
-                <p>Sekmeler arasında geçiş yapılamaz (bu sadece görsel bir simülasyondur).</p>
-                <p>Linklere tıklayarak yeni sekmede açabilirsiniz.</p>
+                 <strong>Yardım</strong>
+                 <p>Klavye ok tuşları (Yukarı/Aşağı/Sol/Sağ), Home, End ve Enter tuşlarını kullanarak gezinebilirsiniz.</p>
+                 <p>Projelerin veya profil linklerinin üzerine gelip Enter'a basarak ilgili sayfayı açabilirsiniz.</p>
+                 <br>
+                 <strong>Navigasyon</strong>
+                  <p><strong>&uarr;&darr;</strong>: Yukarı/Aşağı Seçim</p>
+                  <p><strong>&larr;&rarr;</strong>: Sekmelerde Gezinme</p>
+                  <p><strong>Enter</strong>: Linki Aç</p>
+                  <p><strong>Home/End</strong>: Liste Başı/Sonu</p>
             </aside>
-        </div>
-
-        <footer class="bios-footer">
-           <span><strong>&uarr;&darr;</strong>Select Item</span>
-           <span><strong>Enter</strong>Select</span>
-           <span><strong>+/-</strong>Change Values</span>
-           <span><strong>F1</strong>Help</span>
-           <span><strong>ESC</strong>Exit</span>
-           <span><strong>F9</strong>Setup Defaults</span>
-           <span><strong>F10</strong>Save and Exit</span>
+        </div> <footer class="bios-footer">
+            <span><strong>&uarr;&darr;</strong>Select Item</span>
+            <span><strong>&larr;&rarr;</strong>Change Tab</span>
+            <span><strong>Enter</strong>Select/Open</span>
+            <span><strong>F1</strong>Help</span>
+            <span><strong>ESC</strong>Exit</span>
+            <span><strong>F9</strong>Setup Defaults</span>
+            <span><strong>F10</strong>Save and Exit</span>
         </footer>
-    </div>
-
-
-    <script>
+    </div> <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const projectList = document.getElementById('project-list');
-            // Sadece doğrudan projectList'in altındaki li'leri alalım
-            const items = Array.from(projectList.children).filter(child => child.tagName === 'LI');
-            let selectedIndex = -1; // Başlangıçta hiçbir öğe seçili değil
+            // Gezinilecek tüm elemanları sırayla seç
+            const tabs = Array.from(document.querySelectorAll('#bios-tabs-nav > span'));
+            const profileLinks = Array.from(document.querySelectorAll('#profile-links-list > a'));
+            const projectItems = Array.from(document.querySelectorAll('#project-list > li'));
 
-            // Seçimi güncelleyen ve vurgulayan fonksiyon
-            function selectItem(index) {
-                // Önceki seçimi temizle
-                if (selectedIndex !== -1 && items[selectedIndex]) {
-                    items[selectedIndex].classList.remove('selected-item');
+            // Tüm gezinilebilir öğeleri tek bir dizide birleştir
+            const navigableElements = [...tabs, ...profileLinks, ...projectItems];
+
+            // Başlangıçta hangi öğenin seçili olacağını belirle (örneğin, 'Portfolio' sekmesi)
+            const initialSelectedTab = tabs.find(tab => tab.textContent.trim() === 'Portfolio') || tabs[0]; // Portfolio'yu bulamazsa ilkini seç
+            let selectedIndex = navigableElements.indexOf(initialSelectedTab); // Başlangıç indeksi
+
+            // Seçim sınıfları
+            const tabSelectedClass = 'selected'; // Kırmızı arka planlı ana sekme
+            const tabKbSelectedClass = 'kb-selected-tab'; // Diğer sekmelerin klavye ile seçilme stili
+            const linkProjectKbSelectedClass = 'kb-selected'; // Profil linkleri ve projeler için klavye seçim stili
+
+            // --- Seçimi Güncelleme Fonksiyonu ---
+            function selectElement(index) {
+                // 1. Önceki seçimi temizle
+                if (selectedIndex !== -1 && selectedIndex < navigableElements.length && navigableElements[selectedIndex]) {
+                    const prevElement = navigableElements[selectedIndex];
+                    prevElement.classList.remove(tabSelectedClass, tabKbSelectedClass, linkProjectKbSelectedClass);
                 }
 
-                // Yeni indeksi ayarla ve sınırlar içinde kalmasını sağla
+                // 2. Yeni indeksi ayarla (dizi sınırları içinde)
                 if (index < 0) {
-                    selectedIndex = 0; // İlk öğeye git
-                } else if (index >= items.length) {
-                    selectedIndex = items.length - 1; // Son öğeye git
+                    selectedIndex = 0;
+                } else if (index >= navigableElements.length) {
+                    selectedIndex = navigableElements.length - 1;
                 } else {
                     selectedIndex = index;
                 }
 
-                // Yeni öğeyi vurgula
-                if (items[selectedIndex]) {
-                    items[selectedIndex].classList.add('selected-item');
-                    // Seçilen öğeyi görünür alana kaydır
-                    items[selectedIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // 3. Yeni öğeyi vurgula
+                const currentElement = navigableElements[selectedIndex];
+                if (currentElement) {
+                    // Eleman tipine göre doğru sınıfı ekle
+                    if (tabs.includes(currentElement)) {
+                        // Eğer bu sekme başlangıçta seçili olan (Portfolio) ise ana stili, değilse klavye stilini kullan
+                         if (currentElement === initialSelectedTab) { // === ile karşılaştır
+                              currentElement.classList.add(tabSelectedClass);
+                         } else {
+                              currentElement.classList.add(tabKbSelectedClass);
+                         }
+                    } else { // Profil linki veya Proje li
+                        currentElement.classList.add(linkProjectKbSelectedClass);
+                    }
+
+                    // Görünür alana kaydır
+                    // Sadece dikey kaydırma yapalım, sekmelerde yatay kaydırma sorun çıkarabilir
+                    currentElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' /*, inline: 'nearest'*/ });
                 }
             }
 
-            // Klavye olaylarını dinle
+            // --- Klavye Olay Dinleyicisi ---
             document.addEventListener('keydown', (event) => {
-                // Eğer liste boşsa veya görünür değilse işlem yapma (isteğe bağlı)
-                if (!items.length) return;
+                if (!navigableElements.length) return; // Eleman yoksa çık
+
+                // Odak body veya container üzerindeyken çalışmasını sağla (input vb. varsa engelleme)
+                if (document.activeElement && document.activeElement !== document.body && !document.querySelector('.bios-container').contains(document.activeElement)) {
+                   // Eğer odak başka bir etkileşimli elemanda ise BIOS navigasyonunu çalıştırma
+                   // return; // Bu satır input alanları vs. eklenirse gerekebilir
+                }
+
+                const currentElement = navigableElements[selectedIndex];
+                const isTab = tabs.includes(currentElement);
+                const isProfileLink = profileLinks.includes(currentElement);
+                const isProjectItem = projectItems.includes(currentElement);
+
+                let targetIndex = selectedIndex; // Hedeflenen yeni index
 
                 switch (event.key) {
                     case 'ArrowDown':
-                        event.preventDefault(); // Sayfanın kaymasını engelle
-                        selectItem(selectedIndex + 1);
+                        event.preventDefault();
+                        // Eğer bir sekmedeysek, ilk profil linkine atla
+                        if (isTab) {
+                            targetIndex = navigableElements.indexOf(profileLinks[0] || projectItems[0] || currentElement); // Profil yoksa projeye, o da yoksa yerinde kal
+                        }
+                        // Eğer bir profil linkindeysek, ilk proje öğesine atla
+                        else if (isProfileLink) {
+                            targetIndex = navigableElements.indexOf(projectItems[0] || currentElement); // Proje yoksa yerinde kal
+                        }
+                        // Eğer bir proje öğesindeysek, bir sonrakine git (sınır kontrolü selectElement içinde)
+                        else if (isProjectItem) {
+                            targetIndex++;
+                        }
+                         selectElement(targetIndex);
                         break;
+
                     case 'ArrowUp':
-                        event.preventDefault(); // Sayfanın kaymasını engelle
-                        selectItem(selectedIndex - 1);
+                        event.preventDefault();
+                         // Eğer bir proje öğesindeysek, son profil linkine atla
+                         if (isProjectItem) {
+                             targetIndex = navigableElements.indexOf(profileLinks[profileLinks.length - 1] || tabs[tabs.length -1] || currentElement); // Profil yoksa sekmeye, o da yoksa yerinde kal
+                         }
+                         // Eğer bir profil linkindeysek, son sekmeye atla
+                         else if (isProfileLink) {
+                              targetIndex = navigableElements.indexOf(tabs[tabs.length - 1] || currentElement); // Sekme yoksa yerinde kal
+                         }
+                         // Eğer bir sekmedeysek, bir öncekine git (sınır kontrolü selectElement içinde)
+                         else if (isTab) {
+                              targetIndex--; // Sola gitmekle aynı mantıkta değil, yukarı gidince önceki gruba dönmeli.
+                              // Yukarı basınca sekmelerde bir şey yapmasın mı? Veya son projeye mi dönsün?
+                              // Şimdilik sekmelerde yukarı basınca bir şey yapmasın.
+                              // Eğer yukarı basınca son projeye gitmesini isterseniz:
+                              // targetIndex = navigableElements.indexOf(projectItems[projectItems.length - 1] || profileLinks[profileLinks.length -1] || currentElement);
+                              // Ama bu kafa karıştırıcı olabilir. En iyisi yukarı basınca sekmelerde kalmak veya hiçbir şey yapmamak.
+                              // Şimdilik yerinde kalması için hedefi değiştirmiyoruz.
+                              // Veya ilk sekmeye git? selectElement(0);
+                              // En mantıklısı: Sekmedeyken yukarı basınca son profil linkine gitsin.
+                              targetIndex = navigableElements.indexOf(profileLinks[profileLinks.length -1] || projectItems[projectItems.length -1] || currentElement);
+
+                         }
+                        selectElement(targetIndex);
                         break;
-                    case 'Enter':
-                        if (selectedIndex !== -1 && items[selectedIndex]) {
-                            // Seçili öğe içindeki ilk linki bul
-                            const link = items[selectedIndex].querySelector('a.project-link');
-                            if (link) {
-                                event.preventDefault(); // Form gönderme gibi varsayılan eylemleri engelle
-                                // Linki yeni sekmede aç (target="_blank" davranışını koru)
-                                window.open(link.href, '_blank');
-                                // Veya aynı sekmede açmak için:
-                                // window.location.href = link.href;
-                            }
+
+                    case 'ArrowRight':
+                        if (isTab) { // Sadece sekmelerde sağa git
+                            event.preventDefault();
+                            const currentTabIndex = tabs.indexOf(currentElement);
+                            const nextTabIndex = (currentTabIndex + 1); // Sona gelince dur
+                             if(nextTabIndex < tabs.length){
+                                targetIndex = navigableElements.indexOf(tabs[nextTabIndex]);
+                             } // else: sonda kal
+                            selectElement(targetIndex);
+                        }
+                        // Profil linklerinde sağa basınca bir sonraki linke gidebilir
+                        else if (isProfileLink) {
+                             event.preventDefault();
+                             const currentLinkIndex = profileLinks.indexOf(currentElement);
+                             const nextLinkIndex = currentLinkIndex + 1;
+                             if(nextLinkIndex < profileLinks.length){
+                                 targetIndex = navigableElements.indexOf(profileLinks[nextLinkIndex]);
+                                 selectElement(targetIndex);
+                             }
                         }
                         break;
-                    case 'Home': // Listenin başına git
+
+                    case 'ArrowLeft':
+                         if (isTab) { // Sadece sekmelerde sola git
+                            event.preventDefault();
+                            const currentTabIndex = tabs.indexOf(currentElement);
+                            const prevTabIndex = (currentTabIndex - 1); // Başa gelince dur
+                             if(prevTabIndex >= 0){
+                                targetIndex = navigableElements.indexOf(tabs[prevTabIndex]);
+                             } // else: başta kal
+                            selectElement(targetIndex);
+                         }
+                          // Profil linklerinde sola basınca bir önceki linke gidebilir
+                        else if (isProfileLink) {
+                             event.preventDefault();
+                             const currentLinkIndex = profileLinks.indexOf(currentElement);
+                             const prevLinkIndex = currentLinkIndex - 1;
+                             if(prevLinkIndex >= 0){
+                                 targetIndex = navigableElements.indexOf(profileLinks[prevLinkIndex]);
+                                 selectElement(targetIndex);
+                             }
+                        }
+                        break;
+
+                    case 'Enter':
+                        if (currentElement) {
+                             let linkToOpen = null;
+                             if (isProfileLink) { // Seçili öğe bir profil linki (kendisi link)
+                                 linkToOpen = currentElement;
+                             } else if (isProjectItem) { // Seçili öğe bir proje listesi elemanı
+                                 linkToOpen = currentElement.querySelector('a.project-link'); // İçindeki linki bul
+                             }
+
+                             if (linkToOpen && linkToOpen.href) {
+                                 event.preventDefault();
+                                 window.open(linkToOpen.href, '_blank');
+                             }
+                             // Sekmelerde Enter'a basınca bir şey yapmıyoruz.
+                        }
+                        break;
+
+                    case 'Home':
                          event.preventDefault();
-                         selectItem(0);
+                         selectElement(0); // Tüm listenin en başına (ilk sekme)
                          break;
-                    case 'End': // Listenin sonuna git
+
+                    case 'End':
                          event.preventDefault();
-                         selectItem(items.length - 1);
+                         selectElement(navigableElements.length - 1); // Tüm listenin en sonuna (son proje)
                          break;
                 }
             });
 
-             // Fare ile bir öğenin üzerine gelindiğinde klavye seçimini güncelle
-             items.forEach((item, index) => {
-                 item.addEventListener('mouseenter', () => {
-                     selectItem(index);
+             // --- Fare Etkileşimleri ---
+             navigableElements.forEach((element, index) => {
+                 element.addEventListener('mouseenter', () => {
+                     // Fare üzerine gelince de seçimi güncelle (klavye seçimini takip etsin)
+                     selectElement(index);
                  });
-                 // Linklere tıklanınca varsayılan davranışı engelleme (yeni sekmede açılacak zaten)
-                 const link = item.querySelector('a.project-link');
-                 if (link) {
-                     link.addEventListener('click', (e) => {
-                         // Gerekirse burada ek işlem yapılabilir ama window.open zaten işi görüyor.
-                         // e.preventDefault(); // Normal tıklamayı engellemek isterseniz
-                     });
-                 }
+
+                 element.addEventListener('click', (e)=> {
+                     // Sekmelere tıklanınca seçimi oraya getir (Enter gibi davranmasın)
+                     if (tabs.includes(element)) {
+                         selectElement(index);
+                     }
+                     // Profil linkine tıklama zaten yeni sekmede açar (varsayılan davranış)
+                     // Proje li elementine tıklayınca içindeki linki açalım (Enter gibi)
+                     else if (projectItems.includes(element)) {
+                         const link = element.querySelector('a.project-link');
+                         if (link && link.href) {
+                            // Belki zaten linke tıklandıysa tekrar açmaya gerek yok?
+                            // Sadece li'nin boş alanına tıklanınca açsın?
+                            if (e.target === element || e.target === element.querySelector('span.description') || e.target === element.querySelector('span.project-name') ) {
+                                 window.open(link.href, '_blank');
+                            }
+                         }
+                     }
+                 });
              });
 
-            // Sayfa yüklendiğinde ilk öğeyi seçili yapabiliriz (isteğe bağlı)
-             // selectItem(0);
-
-             // Linklere tabindex="-1" ekleyerek normal TAB tuşu ile gezinmeyi engelle
-             // (isteğe bağlı, sadece ok tuşları ile kontrol istiyorsak)
-             projectList.querySelectorAll('a, span[tabindex]').forEach(el => el.setAttribute('tabindex', '-1'));
-             document.querySelectorAll('.profile-links a').forEach(el => el.setAttribute('tabindex', '-1'));
+            // --- Başlangıç Seçimi ---
+            if (selectedIndex < 0 || selectedIndex >= navigableElements.length) {
+                 selectedIndex = 0; // Eğer başlangıç öğesi bulunamadıysa veya geçersizse ilkini seç
+            }
+            // Sayfa yüklendiğinde ilk seçimi uygula
+            if (navigableElements.length > 0) {
+                selectElement(selectedIndex);
+            }
 
         });
     </script>
-
-
 
 </body>
 </html>
