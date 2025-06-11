@@ -423,3 +423,25 @@
                  padding: 1px 2px;
             }
          }
+
+         @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .cv-pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+            display: inline-block; /* Animasyonun düzgün çalışması için */
+        }
+
+        /* Hover durumunda animasyonu duraklatmak için (opsiyonel) */
+        .cv-pulse:hover {
+            animation-play-state: paused;
+        }
