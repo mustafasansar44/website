@@ -4,7 +4,9 @@ const tr = {
         profile_links: {
             github: "GitHub Profil",
             medium: "Medium Yazıları",
-            linkedin: "LinkedIn Bağlantısı"
+            linkedin: "LinkedIn Bağlantısı",
+            cv: "Özgeçmiş",
+            cv_url: "./assets/Mustafa_SANSAR_TR.pdf"
         },
         projects: {
             title: "Projelerim (Güncelden Eskiye)",

@@ -4,7 +4,9 @@ const en = {
         profile_links: {
             github: "GitHub Profile",
             medium: "Medium Articles",
-            linkedin: "LinkedIn Profile"
+            linkedin: "LinkedIn Profile",
+            cv: "CV",
+            cv_url: "./assets/Mustafa_SANSAR_EN.pdf"
         },
         projects: {
             title: "My Projects (From Newest to Oldest)",

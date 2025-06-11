@@ -8,11 +8,22 @@ function changeLanguage(lang) {
 }
 
 function updateContent() {
+    // Normal data-i18n elementlerini güncelle
     const elements = document.querySelectorAll('[data-i18n]');
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         const translation = getNestedTranslation(languages[currentLanguage], key);
         if (translation) element.textContent = translation;
+    });
+
+    // data-i18n-href özelliğine sahip elementleri güncelle
+    const hrefElements = document.querySelectorAll('[data-i18n-href]');
+    hrefElements.forEach(element => {
+        const key = element.getAttribute('data-i18n-href');
+        const translatedHref = getNestedTranslation(languages[currentLanguage], key);
+        if (translatedHref) {
+            element.setAttribute('href', translatedHref);
+        }
     });
 }
 
@@ -283,4 +294,15 @@ document.addEventListener('DOMContentLoaded', () => {
             selectElement(selectedIndex);
         }, 50);
     }
+
+    document.querySelectorAll('[data-i18n-href]').forEach(el => {
+        const key = el.getAttribute('data-i18n-href');
+        console.log(el)
+        const translatedHref = getNestedTranslation(languages[currentLanguage], key);
+        console.log(translatedHref)
+        if (translatedHref) {
+            el.setAttribute('href', translatedHref);
+        }
+    });
 });
+
