@@ -1,12 +1,12 @@
 const tr = {
     content: {
-        description: "Merhaba, ben Mustafa. Gazi Üniversitesi Bilgisayar Mühendisliği mezunuyum. Özellikle Java & Spring boot olmak üzere çeşitli projeler geliştirdim ve geliştirmeye devam ediyorum. Full Stack alanında (Java Spring boot, Angular) yaklaşık 1 senelik iş tecrübem mevcut.",
+        description: "Java ve özellikle Spring Boot ekosistemi (Spring Security, Spring Data, Spring Cloud) üzerinde uzmanlaşmış, FinTech alanında ölçeklenebilir backend sistemleri, RESTful API’ler, ödeme entegrasyonları ve transaction yönetimi geliştiren; ayrıca Docker, Kubernetes ve Amazon Web Services servisleri (Amazon SQS, Amazon S3, Amazon EC2) ile mikroservis mimarileri geliştirme deneyimine sahip, veri yönetiminde PostgreSQL, Hibernate ve JPA kullanan; bunun yanında C# ve Unity ile projeler geliştirmiş, yazılım mimarisi ve sistem tasarımına ilgi duyan bir Yazılım Mühendisi.",
         profile_links: {
             github: "GitHub Profil",
             medium: "Medium Yazıları",
             linkedin: "LinkedIn Bağlantısı",
             cv: "Özgeçmiş",
-            cv_url: "./assets/Mustafa_SANSAR_TR.pdf"
+            cv_url: "./assets/001_Mustafa_Sansar.pdf"
         },
         projects: {
             title: "Projelerim (Güncelden Eskiye)",

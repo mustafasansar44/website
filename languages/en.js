@@ -1,12 +1,12 @@
 const en = {
     content: {
-        description: "Hello, I'm Mustafa. I graduated from Gazi University with a degree in Computer Engineering. I have developed and continue to develop various projects, especially with Java & Spring Boot. I have about 1 year of work experience in Full Stack development (Java Spring Boot, Angular).",
+        description: "Software Engineer specializing in backend development with a strong focus on the Java Spring Boot ecosystem (Spring Security, Spring Data, Spring Cloud). Experienced in building scalable applications in the FinTech domain, including RESTful APIs, payment integrations, and transaction processing systems. Proficient in developing and deploying microservices using Docker and Kubernetes, with hands-on experience in AWS services such as SQS, S3, and EC2 to support scalable and reliable systems. Strong background in PostgreSQL and Hibernate/JPA for effective data persistence and system design. Additionally, experienced in C# and Unity for game and software development projects, with a strong interest in software architecture.",
         profile_links: {
             github: "GitHub Profile",
             medium: "Medium Articles",
             linkedin: "LinkedIn Profile",
-            cv: "CV",
-            cv_url: "./assets/Mustafa_SANSAR_EN.pdf"
+            cv: "Resume",
+            cv_url: "./assets/001_Mustafa_Sansar.pdf"
         },
         projects: {
             title: "My Projects (From Newest to Oldest)",
